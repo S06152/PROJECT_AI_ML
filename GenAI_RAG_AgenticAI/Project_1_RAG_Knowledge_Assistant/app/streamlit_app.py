@@ -64,6 +64,21 @@ class StreamlitApp:
 
         return needs_update
 
+    def _validate_vector_db_keys(self, selected_vector_db, pinecone_api_key, astra_db_token, astra_db_endpoint):
+        """
+        Validate that required API keys are provided for the selected vector DB.
+        Returns (is_valid, error_message).
+        """
+        if "pinecone" in selected_vector_db.lower():
+            if not pinecone_api_key:
+                return False, "❌ Pinecone API Key is required for Pinecone vector store."
+        elif "astra" in selected_vector_db.lower():
+            if not astra_db_token:
+                return False, "❌ AstraDB Application Token is required for AstraDB vector store."
+            if not astra_db_endpoint:
+                return False, "❌ AstraDB API Endpoint is required for AstraDB vector store."
+        return True, ""
+
     # DOCUMENT PROCESSING PIPELINE
     def _process_and_index(self, uploaded_files, selected_vector_db, pinecone_api_key, astra_db_token, astra_db_endpoint):
         """
@@ -75,6 +90,14 @@ class StreamlitApp:
         """
 
         try:
+            # Validate vector DB keys before starting the pipeline
+            is_valid, error_msg = self._validate_vector_db_keys(
+                selected_vector_db, pinecone_api_key, astra_db_token, astra_db_endpoint
+            )
+            if not is_valid:
+                st.error(error_msg)
+                return
+
             with st.spinner("📄 Loading & processing documents..."):
                 logging.info("Starting document ingestion pipeline.")
 
@@ -103,6 +126,11 @@ class StreamlitApp:
                 # Step 2: Chunking
                 chunker = ChunkingStrategy(chunk_size = self.config.get_chunk_size(), chunk_overlap = self.config.get_chunk_overlap())
                 chunks = chunker.split_documents_into_chunks(all_documents)
+
+                if not chunks:
+                    logging.warning("No chunks were created after splitting.")
+                    st.error("❌ Document splitting produced no chunks.")
+                    return
 
                 logging.info(f"Created {len(chunks)} chunks.")
 
@@ -142,7 +170,7 @@ class StreamlitApp:
 
         except Exception as e:
             logging.exception("Error during document processing pipeline.")
-            raise CustomException(e, sys)
+            st.error(f"❌ Indexing failed: {e}")
 
     # MAIN UI LOADER
     def load_streamlit_ui(self):
@@ -216,6 +244,9 @@ class StreamlitApp:
 
                 st.session_state["messages"].append({"role": "user", "content": user_query})
 
+                # Initialize response before the block to avoid UnboundLocalError
+                response = None
+
                 with st.chat_message("assistant"):
                     with st.spinner("🔍 Searching & generating answer..."):
                         try:
@@ -236,10 +267,11 @@ class StreamlitApp:
 
                         except Exception as e:
                             logging.exception("QA chain execution failed.")
-                            response = "❌ Error generating response."
+                            response = f"❌ Error generating response: {e}"
                             st.error(response)
 
-                st.session_state["messages"].append({"role": "assistant", "content": response})
+                if response is not None:
+                    st.session_state["messages"].append({"role": "assistant", "content": response})
 
         except Exception as e:
             logging.exception("Fatal error while rendering Streamlit UI.")
