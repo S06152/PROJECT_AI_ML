@@ -12,6 +12,7 @@ docx2txt
 unstructured
 python-pptx
 openpyxl
+msoffcrypto-tool
 beautifulsoup4
 pinecone
 langchain-pinecone
