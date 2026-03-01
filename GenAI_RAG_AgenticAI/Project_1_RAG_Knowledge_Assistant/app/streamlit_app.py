@@ -244,6 +244,10 @@ class StreamlitApp:
 
                 st.session_state["messages"].append({"role": "user", "content": user_query})
 
+                # Display the user message immediately before generating response
+                with st.chat_message("user"):
+                    st.markdown(user_query)
+
                 # Initialize response before the block to avoid UnboundLocalError
                 response = None
 
