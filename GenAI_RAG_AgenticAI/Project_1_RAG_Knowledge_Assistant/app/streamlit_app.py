@@ -181,7 +181,7 @@ class StreamlitApp:
             logging.info("Loading Streamlit UI.")
 
             page_title = "🤖 " + self.config.get_page_title()
-            st.set_page_config(page_title = page_title, page_icon = "🤖", layout = "wide")
+            st.set_page_config(page_title = page_title, layout = "wide")
             st.header(page_title)
 
             # Sidebar Configuration
