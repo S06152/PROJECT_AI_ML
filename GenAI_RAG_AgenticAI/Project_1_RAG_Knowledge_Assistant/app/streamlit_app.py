@@ -72,7 +72,7 @@ class StreamlitApp:
         if "pinecone" in selected_vector_db.lower():
             if not pinecone_api_key:
                 return False, "❌ Pinecone API Key is required for Pinecone vector store."
-        elif "astra" in selected_vector_db.lower():
+        elif "astradb" in selected_vector_db.lower():
             if not astra_db_token:
                 return False, "❌ AstraDB Application Token is required for AstraDB vector store."
             if not astra_db_endpoint:
@@ -141,10 +141,8 @@ class StreamlitApp:
                 # Step 4: API Key Selection
                 if "pinecone" in selected_vector_db.lower():
                     api_key = pinecone_api_key
-                elif "astra" in selected_vector_db.lower():
+                elif "astradb" in selected_vector_db.lower():
                     api_key = astra_db_token
-                else:
-                    api_key = pinecone_api_key or astra_db_token
 
                 # Step 5: Vector Store Creation
                 vector_store_wrapper = VectorStoreFactory.get_vector_store(
@@ -210,7 +208,7 @@ class StreamlitApp:
                 )
 
                 # Auto re-index when files or vector DB change
-                if uploaded_files and groq_api_key:
+                if uploaded_files:
                     if self._needs_reindexing(uploaded_files, selected_vector_db):
                         self._process_and_index(
                             uploaded_files = uploaded_files,
