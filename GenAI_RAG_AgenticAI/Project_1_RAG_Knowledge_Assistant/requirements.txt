@@ -9,7 +9,6 @@ chromadb
 faiss-cpu
 pypdf
 docx2txt
-unstructured[pptx]
 python-pptx
 openpyxl
 msoffcrypto-tool
