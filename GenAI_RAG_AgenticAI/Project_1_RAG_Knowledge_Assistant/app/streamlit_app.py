@@ -232,7 +232,7 @@ class StreamlitApp:
                 with st.chat_message(message["role"]):
                     st.markdown(message["content"])
 
-            user_query = st.chat_input("Ask a question about your documents")
+            user_query = st.chat_input("Upload the file and then ask a question about your document")
 
             if user_query:
                 logging.info(f"User query received: {user_query}")
