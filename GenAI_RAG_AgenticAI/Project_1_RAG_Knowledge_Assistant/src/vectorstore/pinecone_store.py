@@ -1,4 +1,5 @@
 # Standard Library Imports
+import os
 import sys
 from src.utils.logger import logging
 from src.utils.exception import CustomException
@@ -138,6 +139,11 @@ class PineconeVector:
             # Ensure index exists
             # ---------------------------
             self.ensure_index(dimension)
+
+            # ---------------------------
+            # Set env variable so langchain_pinecone can find it
+            # ---------------------------
+            os.environ["PINECONE_API_KEY"] = self.api_key
 
             # ---------------------------
             # Upload documents
