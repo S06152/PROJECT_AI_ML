@@ -146,6 +146,7 @@ class PineconeVector:
                 documents = self.documents,
                 embedding = self.embeddings,
                 index_name = self.index_name,
+                pinecone_api_key = self.api_key
             )
 
             logging.info(
