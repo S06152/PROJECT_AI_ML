@@ -10,7 +10,6 @@ faiss-cpu
 pypdf
 docx2txt
 unstructured[pptx]
-python-magic
 python-pptx
 openpyxl
 msoffcrypto-tool
