@@ -19,4 +19,5 @@ langchain-pinecone
 langchain-astradb
 langchain-weaviate
 weaviate-client
+python-dotenv
 
