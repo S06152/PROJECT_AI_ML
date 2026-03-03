@@ -12,6 +12,9 @@ docx2txt
 unstructured[pptx]
 python-magic
 python-pptx
+libmagic1
+poppler-utils
+tesseract-ocr
 openpyxl
 msoffcrypto-tool
 beautifulsoup4
