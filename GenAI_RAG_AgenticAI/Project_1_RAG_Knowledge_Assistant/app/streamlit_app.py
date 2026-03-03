@@ -115,7 +115,7 @@ class StreamlitApp:
 
                     except Exception as e:
                         logging.error(f"Failed to load {uploaded_file.name}: {e}")
-                        st.error(f"❌ Failed to load {uploaded_file.name}")
+                        st.error(f"❌ Failed to load {uploaded_file.name}: {str(e)}")
                         continue
 
                 if not all_documents:
