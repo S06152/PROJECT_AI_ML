@@ -190,11 +190,23 @@ class StreamlitApp:
             # Sidebar Configuration
             with st.sidebar:
                 st.subheader("⚙️ Configuration")
-                groq_api_key = st.text_input("🔑 Groq API Key:", type = "password", key = "GROQ_API_KEY", value = os.getenv("GROQ_API_KEY"), disabled = True)
-                pinecone_api_key = st.text_input("🔑 Pinecone API Key:", type = "password", key = "PINECONE_API_KEY", value = os.getenv("PINECONE"), disabled = True)
-                astra_db_token = st.text_input("🔑 AstraDB Application Token:", type = "password", key = "ASTRA_DB_APPLICATION_TOKEN", value = os.getenv("ASTRA_DB_APPLICATION_TOKEN"), disabled = True)
-                astra_db_endpoint = st.text_input("🌐 AstraDB API Endpoint:", type = "password", key = "ASTRA_DB_API_ENDPOINT", value = os.getenv("ASTRA_DB_API_ENDPOINT"), disabled = True)
- 
+                #groq_api_key = st.text_input("🔑 Groq API Key:", type = "password", key = "GROQ_API_KEY", value = os.getenv("GROQ_API_KEY"), disabled = True)
+                #pinecone_api_key = st.text_input("🔑 Pinecone API Key:", type = "password", key = "PINECONE_API_KEY", value = os.getenv("PINECONE"), disabled = True)
+                #astra_db_token = st.text_input("🔑 AstraDB Application Token:", type = "password", key = "ASTRA_DB_APPLICATION_TOKEN", value = os.getenv("ASTRA_DB_APPLICATION_TOKEN"), disabled = True)
+                #astra_db_endpoint = st.text_input("🌐 AstraDB API Endpoint:", type = "password", key = "ASTRA_DB_API_ENDPOINT", value = os.getenv("ASTRA_DB_API_ENDPOINT"), disabled = True)
+
+                # Load API keys from environment
+                groq_api_key = os.getenv("GROQ_API_KEY")
+                pinecone_api_key = os.getenv("PINECONE")
+                astra_db_token = os.getenv("ASTRA_DB_APPLICATION_TOKEN")
+                astra_db_endpoint = os.getenv("ASTRA_DB_API_ENDPOINT")
+
+                # Display masked status indicators (read-only)
+                st.text_input("🔑 Groq API Key:", value = "✅ Configured" if groq_api_key else "❌ Not Set", disabled = True, key = "GROQ_API_KEY")
+                st.text_input("🔑 Pinecone API Key:", value = "✅ Configured" if pinecone_api_key else "❌ Not Set", disabled = True, key = "PINECONE_API_KEY")
+                st.text_input("🔑 AstraDB Application Token:", value = "✅ Configured" if astra_db_token else "❌ Not Set", disabled = True, key = "ASTRA_DB_APPLICATION_TOKEN")
+                st.text_input("🌐 AstraDB API Endpoint:", value = "✅ Configured" if astra_db_endpoint else "❌ Not Set", disabled = True, key = "ASTRA_DB_API_ENDPOINT")
+
                 selected_llm = st.selectbox("🧠 Select LLM Model", self.config.get_groq_model_options())
 
                 temp_options = self.config.get_temperature()
