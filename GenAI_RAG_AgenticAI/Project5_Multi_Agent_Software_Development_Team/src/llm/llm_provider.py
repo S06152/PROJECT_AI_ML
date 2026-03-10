@@ -1,4 +1,5 @@
 import sys
+import os
 from src.utils.logger import logging
 from src.utils.exception import CustomException
 from langchain_groq import ChatGroq
@@ -53,7 +54,7 @@ class LLMProvider(Config):
             # Initialize ChatGroq LLM
             llm = ChatGroq(
                 model=self.model_name,
-                api_key=self.groq_api_key
+                api_key=os.getenv("GROQ_API_KEY")
             )
 
             logging.info(f"LLM initialized successfully with model: {self.model_name}")
