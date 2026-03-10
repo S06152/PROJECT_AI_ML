@@ -4,6 +4,7 @@ from src.utils.logger import logging
 from src.utils.exception import CustomException
 from langchain_groq import ChatGroq
 from src.config.config import Config
+import streamlit as st
 
 class LLMProvider(Config):
     """
@@ -26,7 +27,8 @@ class LLMProvider(Config):
 
             # Load configuration from Config class
             super().__init__()
-
+            st.write("API KEY:",  self.groq_api_key)
+            st.write("Model:",  self.model_name)
             logging.info("LLMProvider initialized successfully")
 
         except Exception as e:

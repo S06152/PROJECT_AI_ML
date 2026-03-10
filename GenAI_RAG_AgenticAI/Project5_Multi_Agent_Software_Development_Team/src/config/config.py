@@ -3,7 +3,6 @@ from src.utils.logger import logging
 from src.utils.exception import CustomException
 import os
 from dotenv import load_dotenv
-import streamlit as st
 
 class Config:
     """
@@ -36,7 +35,7 @@ class Config:
 
             # Retrieve Groq API key from environment variables
             self.groq_api_key = os.getenv("GROQ_API_KEY")
-            st.write("API KEY:",  self.groq_api_key)
+            
             if not self.groq_api_key:
                 logging.warning("GROQ_API_KEY not found in environment variables")
 
