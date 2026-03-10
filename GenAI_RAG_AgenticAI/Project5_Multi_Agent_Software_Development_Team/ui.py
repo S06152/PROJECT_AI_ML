@@ -1,27 +1,36 @@
 import streamlit as st
-import requests
 
-API_URL = "http://localhost:8000/build"
+# import your workflow
+from src.graph.workflow_graph import DevTeamWorkflow
+
 
 st.title("🤖 AI Software Development Team")
 
-st.write("Describe the software you want the AI team to build.")
+st.write("Describe the software you want to build.")
 
 user_request = st.text_area(
-    "Enter your idea",
+    "Enter software idea",
     "Build a FastAPI todo application"
 )
+
 
 if st.button("Generate Software"):
 
     with st.spinner("AI team working..."):
 
-        response = requests.post(
-            API_URL,
-            json={"user_request": user_request}
-        )
+        workflow = DevTeamWorkflow()
+        graph = workflow.build_graph()
 
-        result = response.json()
+        initial_state = {
+            "user_request": user_request,
+            "product_spec": "",
+            "architecture": "",
+            "code": "",
+            "tests": "",
+            "review": ""
+        }
+
+        result = graph.invoke(initial_state)
 
         st.subheader("📋 Product Specification")
         st.write(result["product_spec"])
@@ -35,5 +44,5 @@ if st.button("Generate Software"):
         st.subheader("🧪 Tests")
         st.code(result["tests"])
 
-        st.subheader("🔍 Code Review")
+        st.subheader("🔎 Code Review")
         st.write(result["review"])
