@@ -13,7 +13,7 @@ class DeveloperAgent(BaseAgent):
     production-ready FastAPI code following best practices.
     """
 
-    def __init__(self):
+    def __init__(self, llm):
         """
         Initialize the DeveloperAgent with a system prompt that
         instructs the LLM to generate FastAPI backend code.
@@ -27,7 +27,7 @@ class DeveloperAgent(BaseAgent):
         """
 
         # Initialize the BaseAgent with the system prompt
-        super().__init__(system_prompt)
+        super().__init__(llm, system_prompt)
 
         logging.info("DeveloperAgent initialized successfully")
 

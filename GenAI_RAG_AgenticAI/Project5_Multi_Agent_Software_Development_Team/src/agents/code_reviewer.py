@@ -17,7 +17,7 @@ class CodeReviewAgent(BaseAgent):
         - Readability and maintainability
     """
 
-    def __init__(self):
+    def __init__(self, llm):
         """
         Initialize the CodeReviewAgent with a system prompt
         that instructs the LLM to behave as a senior engineer.
@@ -31,7 +31,7 @@ class CodeReviewAgent(BaseAgent):
         """
 
         # Initialize the BaseAgent with system prompt
-        super().__init__(system_prompt)
+        super().__init__(llm, system_prompt)
 
         logging.info("CodeReviewAgent initialized successfully")
 

@@ -16,7 +16,7 @@ class ProductManagerAgent(BaseAgent):
         - System requirements
     """
 
-    def __init__(self):
+    def __init__(self, llm):
         """
         Initialize the ProductManagerAgent with a system prompt that
         instructs the LLM to behave as a Product Manager.
@@ -31,7 +31,7 @@ class ProductManagerAgent(BaseAgent):
         """
 
         # Initialize BaseAgent with the system prompt
-        super().__init__(system_prompt)
+        super().__init__(llm, system_prompt)
 
         logging.info("ProductManagerAgent initialized successfully")
 

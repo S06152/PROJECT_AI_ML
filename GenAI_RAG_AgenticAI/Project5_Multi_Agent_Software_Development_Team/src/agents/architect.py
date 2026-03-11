@@ -16,7 +16,7 @@ class ArchitectAgent(BaseAgent):
         - Technology stack
     """
 
-    def __init__(self):
+    def __init__(self, llm):
         """
         Initialize the ArchitectAgent with a system prompt that
         instructs the LLM to behave like a software architect.
@@ -31,7 +31,7 @@ class ArchitectAgent(BaseAgent):
         """
 
         # Initialize the parent BaseAgent with the system prompt
-        super().__init__(system_prompt)
+        super().__init__(llm, system_prompt)
 
         logging.info("ArchitectAgent initialized successfully")
 

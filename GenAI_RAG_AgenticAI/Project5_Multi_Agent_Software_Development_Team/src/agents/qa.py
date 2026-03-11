@@ -16,7 +16,7 @@ class QAAgent(BaseAgent):
         - Basic functional verification
     """
 
-    def __init__(self):
+    def __init__(self, llm):
         """
         Initialize the QAAgent with a system prompt that instructs
         the LLM to generate pytest-based unit tests.
@@ -30,7 +30,7 @@ class QAAgent(BaseAgent):
         """
 
         # Initialize the BaseAgent with the QA system prompt
-        super().__init__(system_prompt)
+        super().__init__(llm, system_prompt)
 
         logging.info("QAAgent initialized successfully")
 

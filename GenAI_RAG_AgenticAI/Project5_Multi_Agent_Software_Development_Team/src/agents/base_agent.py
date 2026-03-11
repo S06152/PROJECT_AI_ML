@@ -19,7 +19,7 @@ class BaseAgent:
     should inherit from this class.
     """
 
-    def __init__(self, system_prompt: str):
+    def __init__(self, llm, system_prompt: str):
         """
         Initialize the BaseAgent with a system prompt.
 
@@ -32,8 +32,8 @@ class BaseAgent:
         try:
             logging.info("Initializing BaseAgent")
 
-            # Initialize LLM using the LLM provider
-            self.llm = LLMProvider().get_llm()
+            # Initialize LLM 
+            self.llm = llm
 
             # Store system prompt for later execution
             self.system_prompt = system_prompt
