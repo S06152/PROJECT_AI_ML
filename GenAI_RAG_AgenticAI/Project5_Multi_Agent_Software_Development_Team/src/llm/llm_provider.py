@@ -27,8 +27,7 @@ class LLMProvider(Config):
 
             # Load configuration from Config class
             super().__init__()
-            st.write("API KEY:",  self.groq_api_key)
-            st.write("Model:",  self.model_name)
+            
             logging.info("LLMProvider initialized successfully")
 
         except Exception as e:
@@ -47,7 +46,9 @@ class LLMProvider(Config):
 
         try:
             logging.info("Creating ChatGroq LLM instance")
-
+            st.write("Inside try block of get_llm method")
+            st.write("API KEY:",  self.groq_api_key)
+            st.write("Model:",  self.model_name)
             # Validate API key before creating LLM
             if not self.groq_api_key:
                 logging.error("GROQ_API_KEY is missing. Cannot initialize LLM.")
