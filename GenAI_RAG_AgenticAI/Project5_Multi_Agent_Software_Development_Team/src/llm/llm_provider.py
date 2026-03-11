@@ -1,10 +1,8 @@
 import sys
-import os
 from src.utils.logger import logging
 from src.utils.exception import CustomException
 from langchain_groq import ChatGroq
 from src.config.config import Config
-import streamlit as st
 
 class LLMProvider(Config):
     """
@@ -16,6 +14,9 @@ class LLMProvider(Config):
         - GROQ API key
         - Model name
     """
+
+    # Singleton instance to avoid multiple LLM creations
+    _llm_instance = None 
 
     def __init__(self):
         """
@@ -45,22 +46,37 @@ class LLMProvider(Config):
         """
 
         try:
-            logging.info("Creating ChatGroq LLM instance")
-            st.write("Inside try block of get_llm method")
-            st.write("API KEY:",  self.groq_api_key)
-            st.write("Model:",  self.model_name)
-            # Validate API key before creating LLM
+            logging.info("Request received to get LLM instance.")
+
+            # Return cached instance if already created
+            if LLMProvider._llm_instance is not None:
+                logging.info("Returning existing LLM instance (Singleton pattern).")
+                return LLMProvider._llm_instance
+            
+            logging.info("Creating new ChatGroq LLM instance.")
+
+            # Validate API key
             if not self.groq_api_key:
                 logging.error("GROQ_API_KEY is missing. Cannot initialize LLM.")
                 raise ValueError("GROQ_API_KEY not found in environment variables")
 
-            # Initialize ChatGroq LLM
+            # Validate Model Name
+            if not self.model_name:
+                logging.error("Model name is missing in configuration.")
+                raise ValueError("Model name not provided.")
+            
+            logging.info(f"Initializing Groq LLM with model: {self.model_name}")
+
+            # Initialize LLM
             llm = ChatGroq(
                 model=self.model_name,
-                api_key=os.getenv("GROQ_API_KEY")
+                api_key=self.groq_api_key
             )
 
-            logging.info(f"LLM initialized successfully with model: {self.model_name}")
+            # Store singleton instance
+            LLMProvider._llm_instance = llm
+
+            logging.info("ChatGroq LLM instance created and cached successfully.")
 
             return llm
 
